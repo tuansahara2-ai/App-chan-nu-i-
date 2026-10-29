@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#173b32">
+  <meta name="description" content="PigProfit AI — quản lý nhật ký đàn heo, thức ăn, FCR, chi phí và hiệu quả lứa nuôi.">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="styles.css">
+  <title>PigProfit AI — Quản lý hiệu quả chăn nuôi heo</title>
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar">
+      <a class="brand" href="#dashboard" aria-label="PigProfit AI Trang chủ">
+        <span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 44 44"><path d="M11 17 7 10l10 3M33 17l4-7-10 3"/><path d="M10 20c0-7 5-11 12-11s12 4 12 11v9c0 5-5 8-12 8s-12-3-12-8z"/><path d="M16 22h.2M28 22h.2M17 29c2 2 8 2 10 0"/><rect x="18" y="25" width="8" height="5" rx="2.5"/></svg></span>
+        <span><strong>PigProfit <em>AI</em></strong><small>Quản trị lứa nuôi bằng dữ liệu</small></span>
+      </a>
+      <div class="top-actions">
+        <span id="saveState" class="save-state"><i></i> Đã lưu trên thiết bị</span>
+        <button class="icon-button" id="syncNow" title="Đồng bộ máy chủ" aria-label="Đồng bộ máy chủ">⟳</button><button class="icon-button" id="exportTop" title="Sao lưu dữ liệu" aria-label="Sao lưu dữ liệu">⇩</button><div id="accountControls" class="account-controls" hidden><span id="accountUser">Tài khoản</span><button id="accountLogout" class="btn btn-small" type="button">Đăng xuất</button></div>
+      </div>
+    </header>
+
+    <div class="contextbar">
+      <div class="farm-context"><span class="eyebrow">WORKSPACE / TRANG TRẠI</span><strong id="farmTitle">Trang trại của tôi</strong><label class="farm-selector-label" for="activeFarm">Chuyển trang trại</label><select id="activeFarm" aria-label="Chọn trang trại"><option value="">Trang trại của tôi</option></select></div>
+      <div class="batch-select-wrap"><label for="activeBatch">LỨA ĐANG XEM</label><select id="activeBatch" aria-label="Chọn lứa nuôi"><option value="">Chưa có lứa nuôi</option></select></div>
+    </div>
+
+    <nav class="main-nav" aria-label="Điều hướng chính">
+      <button class="nav-item active" data-tab="dashboard"><span>⌂</span><small>Tổng quan</small></button>
+      <button class="nav-item" data-tab="daily"><span>＋</span><small>Nhật ký</small></button>
+      <button class="nav-item" data-tab="weighing"><span>⚖</span><small>Cân heo</small></button>
+      <button class="nav-item" data-tab="costs"><span>₫</span><small>Chi phí</small></button>
+      <button class="nav-item" data-tab="reports"><span>▤</span><small>Báo cáo</small></button>
+      <button class="nav-item nav-more-toggle" type="button" data-more-nav aria-expanded="false"><span>•••</span><small>Thêm</small></button>
+      <div class="nav-more-menu" id="navMoreMenu" hidden>
+        <button class="nav-item" data-tab="sales"><span>↗</span><small>Doanh thu / bán heo</small></button>
+        <button class="nav-item" data-tab="pigs"><span>▦</span><small>Hồ sơ heo / QR</small></button>
+        <button class="nav-item" data-tab="settings"><span>⚙</span><small>Cài đặt</small></button>
+      </div>
+    </nav>
+
+    <main id="mainContent" tabindex="-1"></main>
+    <footer class="footer"><span>PigProfit AI · Phiên bản 1.9.0 — Quản lý lứa nuôi / Đồng bộ workspace</span><span>Dữ liệu được lưu cục bộ và đồng bộ theo workspace khi đăng nhập</span></footer>
+  </div>
+  <div id="authLayer" class="auth-layer" hidden></div>
+  <div id="toastRegion" class="toast-region" role="status" aria-live="polite"></div>
+  <input id="importFile" type="file" accept="application/json,.json" hidden>
+  <script src="app.js?v=1.9.0"></script>
+</body>
+</html>
