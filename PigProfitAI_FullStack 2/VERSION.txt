@@ -1,0 +1,6 @@
+PigProfit AI 1.9.0 — Full-stack farm management pilot
+Built: 2026-10-18
+Frontend: responsive PWA, native-style mobile bottom navigation, dashboard alerts, feed-stage catalog/prices, daily feed lines, weights, costs, sales, QR animal profiles, date-filtered reports, CSV/JSON export, team roles and audit views
+Backend: FastAPI authentication, isolated workspace snapshots, scoped roles, optimistic revisions, audit log, one-time password reset, QR endpoint, security headers
+QA: 20 API/security tests passed; Python/JavaScript syntax checks and report-filter/export asset tests passed. Docker and browser E2E require validation in deployment environment.
+Release status: pilot-ready, not audited SaaS at scale. Configure domain/HTTPS, SMTP, external backups, monitoring and operational recovery before public paid launch.

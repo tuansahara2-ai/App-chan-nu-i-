@@ -1,0 +1,52 @@
+services:
+  pigprofit-ai:
+    build: .
+    expose:
+      - "8000"
+    # Safe because this service is not published to the host in production;
+    # trust forwarding headers only from the internal reverse-proxy network.
+    command: ["uvicorn", "server:app", "--host", "0.0.0.0", "--port", "8000", "--proxy-headers", "--forwarded-allow-ips", "*"]
+    environment:
+      PIGPROFIT_DATA_DIR: /app/data
+      PIGPROFIT_SESSION_DAYS: ${PIGPROFIT_SESSION_DAYS:-30}
+      PIGPROFIT_MAX_SNAPSHOT_BYTES: ${PIGPROFIT_MAX_SNAPSHOT_BYTES:-15728640}
+      PIGPROFIT_PUBLIC_URL: ${PIGPROFIT_PUBLIC_URL:-}
+      PIGPROFIT_SMTP_HOST: ${PIGPROFIT_SMTP_HOST:-}
+      PIGPROFIT_SMTP_PORT: ${PIGPROFIT_SMTP_PORT:-587}
+      PIGPROFIT_SMTP_USER: ${PIGPROFIT_SMTP_USER:-}
+      PIGPROFIT_SMTP_PASSWORD: ${PIGPROFIT_SMTP_PASSWORD:-}
+      PIGPROFIT_SMTP_FROM: ${PIGPROFIT_SMTP_FROM:-}
+      PIGPROFIT_SMTP_STARTTLS: ${PIGPROFIT_SMTP_STARTTLS:-true}
+      PIGPROFIT_SMTP_SSL: ${PIGPROFIT_SMTP_SSL:-false}
+      PIGPROFIT_SMTP_TIMEOUT: ${PIGPROFIT_SMTP_TIMEOUT:-10}
+    volumes:
+      - pigprofit_data:/app/data
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/api/health', timeout=3)"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 15s
+
+  caddy:
+    image: caddy:2-alpine
+    depends_on:
+      pigprofit-ai:
+        condition: service_healthy
+    environment:
+      DOMAIN: ${DOMAIN:?Set DOMAIN in .env}
+    ports:
+      - "80:80"
+      - "443:443"
+      - "443:443/udp"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+      - caddy_config:/config
+    restart: unless-stopped
+
+volumes:
+  pigprofit_data:
+  caddy_data:
+  caddy_config:

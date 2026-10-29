@@ -1,0 +1,12 @@
+{$DOMAIN} {
+    encode zstd gzip
+
+    # Static files and API are served by the same-origin FastAPI application.
+    # Caddy provisions/renews TLS certificates when DNS points at this server.
+    reverse_proxy pigprofit-ai:8000
+
+    header {
+        X-Robots-Tag "noindex, nofollow"
+        Strict-Transport-Security "max-age=15552000"
+    }
+}
